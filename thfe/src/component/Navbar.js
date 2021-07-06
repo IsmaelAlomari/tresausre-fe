@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { useSelector } from "react-redux";
+
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SigninButton from "./Buttons/SigninButton";
 import SignupButton from "./Buttons/SignupButton";
+import TreasureList from "./TreasureList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const NavBar = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user.user);
   return (
     <AppBar style={{ width: "90%" }} position="sticky" color="inherit">
       {" "}
@@ -32,19 +36,31 @@ const NavBar = () => {
           Treasure Hunt
         </Typography>
       </Toolbar>{" "}
-      <div
-        style={{
-          alignItems: "flex-end",
-          position: "absolute",
-          right: "20px",
-          flexDirection: "row",
-          gap: "3px",
-        }}
-      >
-        {" "}
-        <SigninButton />
-        <SignupButton />
-      </div>
+      {user ? (
+        <h3>hello Mr/Mrs{user.username}</h3>
+      ) : (
+        <div
+          style={{
+            alignItems: "flex-end",
+            position: "absolute",
+            right: "20px",
+            flexDirection: "row",
+            gap: "3px",
+          }}
+        >
+          {" "}
+          <SigninButton />
+          <SignupButton />
+          <>
+            <button type="button" className="btn btn-light" to="/trash">
+              Trash List
+            </button>
+            <button type="button" className="btn btn-light" to="/tresaure">
+              Treasure List
+            </button>
+          </>
+        </div>
+      )}
     </AppBar>
   );
 };
